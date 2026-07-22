@@ -1,0 +1,1 @@
+window.WORK_LAUNCHER_CONFIG={SUPABASE_URL:"https://dkkawbwjgttppqhuylpj.supabase.co",SUPABASE_PUBLISHABLE_KEY:"sb_publishable_MAeHa62d6HomPSzMSKTofQ_eU3qVJNn"};
