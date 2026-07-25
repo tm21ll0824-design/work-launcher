@@ -125,7 +125,7 @@ function renderTodos() {
     todos.forEach(t => {
         let r = document.createElement('div');
         r.className = 'todo-row' + (t.done ? ' done' : '');
-        r.innerHTML = `<input type="checkbox" ${t.done?'checked':''}><span>${esc(t.text)}</span><button class="icon-btn">×</button>`;
+        r.innerHTML = `<input type="checkbox" ${t.done?'checked':''}><span>${esc(t.text)}</span><button class="icon-btn" data-a="edit">改</button><button class="icon-btn" data-a="del">×</button>`;
         r.querySelector('input').onchange = async e => {
             await s.from('todos').update({
                 done: e.target.checked,
@@ -133,7 +133,16 @@ function renderTodos() {
             }).eq('id', t.id);
             loadTodos()
         };
-        r.querySelector('button').onclick = async () => {
+        r.querySelector('[data-a=edit]').onclick = async () => {
+            let text = prompt('修改任务内容', t.text);
+            if (text === null || !text.trim()) return;
+            await s.from('todos').update({
+                text: text.trim(),
+                updated_at: new Date().toISOString()
+            }).eq('id', t.id);
+            loadTodos()
+        };
+        r.querySelector('[data-a=del]').onclick = async () => {
             if (confirm('删除任务？')) {
                 await s.from('todos').delete().eq('id', t.id);
                 loadTodos()
