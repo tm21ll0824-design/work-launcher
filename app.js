@@ -335,6 +335,49 @@ $('wx-card').onclick = async () => {
     weather()
 };
 weather();
+if (!wx) autoLocateWeather();
+
+async function autoLocateWeather() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(async pos => {
+            let {
+                latitude,
+                longitude
+            } = pos.coords, name = '当前位置';
+            try {
+                let r = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=zh`),
+                    j = await r.json();
+                name = j.city || j.locality || name
+            } catch {}
+            wx = {
+                name,
+                lat: latitude,
+                lon: longitude
+            };
+            localStorage.setItem('launcher_wx_location', JSON.stringify(wx));
+            weather()
+        }, () => ipLocateWeather(), {
+            timeout: 5000
+        })
+    } else {
+        ipLocateWeather()
+    }
+}
+async function ipLocateWeather() {
+    try {
+        let r = await fetch('https://ipwho.is/'),
+            j = await r.json();
+        if (j.success !== false && j.latitude) {
+            wx = {
+                name: j.city || j.country,
+                lat: j.latitude,
+                lon: j.longitude
+            };
+            localStorage.setItem('launcher_wx_location', JSON.stringify(wx));
+            weather()
+        }
+    } catch {}
+}
 
 /* google calendar — agenda restricted to one selected day (default today) via dates= param */
 function ymd(d) {
