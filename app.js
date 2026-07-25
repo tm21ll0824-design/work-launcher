@@ -50,6 +50,8 @@ function tools() {
             let e = document.createElement('a');
             e.className = 'tile';
             e.href = x[1];
+            e.target = `tool_${x[0]}`;
+            e.rel = 'noopener';
             e.innerHTML = `<span class="badge" style="background:${x[3]}">${x[2]}</span>${x[0]}`;
             d.querySelector('.grid').appendChild(e)
         });
@@ -60,12 +62,13 @@ $('tool-search').oninput = tools;
 tools();
 
 /* tab navigation: home / cal / map / flight / task / note — switches which section is visible, no page reload */
-document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.onclick = () => {
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b === btn));
-        document.querySelectorAll('.tab-section').forEach(sec => sec.classList.toggle('hidden', sec.id !== `tab-${btn.dataset.tab}`));
-    }
-});
+function goTab(tab) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+    document.querySelectorAll('.tab-section').forEach(sec => sec.classList.toggle('hidden', sec.id !== `tab-${tab}`))
+}
+document.querySelectorAll('.tab-btn').forEach(btn => btn.onclick = () => goTab(btn.dataset.tab));
+document.querySelectorAll('.tab-link').forEach(link => link.onclick = () => goTab(link.dataset.goto));
+
 
 $('login-form').onsubmit = async e => {
     e.preventDefault();
@@ -139,7 +142,31 @@ function renderTodos() {
         (t.done ? d : p).appendChild(r)
     });
     if (!p.children.length) p.textContent = '暂无未完成任务';
-    if (!d.children.length) d.textContent = '暂无已完成任务'
+    if (!d.children.length) d.textContent = '暂无已完成任务';
+    renderHomeTasks()
+}
+function renderHomeTasks() {
+    let el = $('home-tasks');
+    if (!el) return;
+    let pending = todos.filter(t => !t.done).slice(0, 6);
+    el.innerHTML = '';
+    if (!pending.length) {
+        el.innerHTML = '<div class="home-empty">暂无未完成任务</div>';
+        return
+    }
+    pending.forEach(t => {
+        let r = document.createElement('div');
+        r.className = 'home-row';
+        r.innerHTML = `<input type="checkbox"><span style="flex:1">${esc(t.text)}</span>`;
+        r.querySelector('input').onchange = async e => {
+            await s.from('todos').update({
+                done: e.target.checked,
+                updated_at: new Date().toISOString()
+            }).eq('id', t.id);
+            loadTodos()
+        };
+        el.appendChild(r)
+    })
 }
 async function addTodo() {
     let text = $('todo-input').value.trim();
@@ -189,6 +216,24 @@ function renderNotes() {
             }
         };
         $('note-list').appendChild(e)
+    });
+    renderHomeNotes()
+}
+function renderHomeNotes() {
+    let el = $('home-notes');
+    if (!el) return;
+    let pinned = notes.filter(n => n.pinned).slice(0, 6);
+    el.innerHTML = '';
+    if (!pinned.length) {
+        el.innerHTML = '<div class="home-empty">还没有置顶的信息，去信息库把常用的钉上来</div>';
+        return
+    }
+    pinned.forEach(n => {
+        let r = document.createElement('div');
+        r.className = 'home-row';
+        r.innerHTML = `<span style="flex:1"><b>${esc(n.title)}</b> <span class="tag">${esc(n.category)}</span></span><button class="icon-btn">复制</button>`;
+        r.querySelector('button').onclick = () => navigator.clipboard.writeText(n.content);
+        el.appendChild(r)
     })
 }
 $('note-search').oninput = renderNotes;
@@ -355,6 +400,25 @@ async function loadFlights() {
                 loadFlights()
             }
         };
+        el.appendChild(r)
+    });
+    renderHomeFlights(data)
+}
+function renderHomeFlights(all) {
+    let el = $('home-flights');
+    if (!el) return;
+    let todayStr = new Date().toISOString().slice(0, 10);
+    let today = (all || []).filter(f => f.flight_date === todayStr);
+    el.innerHTML = '';
+    if (!today.length) {
+        el.innerHTML = '<div class="home-empty">今天没有保存的航班</div>';
+        return
+    }
+    today.forEach(f => {
+        let r = document.createElement('div');
+        r.className = 'home-row';
+        r.innerHTML = `<span style="flex:1"><b>${esc(f.flight_no)}</b>${f.note?' · '+esc(f.note):''}</span><button class="icon-btn">查看</button>`;
+        r.querySelector('button').onclick = () => window.open(`https://www.flightradar24.com/data/flights/${f.flight_no.toLowerCase()}`, `flt_${f.flight_no}`, 'noopener');
         el.appendChild(r)
     })
 }

@@ -67,7 +67,18 @@
                             </div>
                         </div>
                     </section>
-                    <p class="info-sub">左侧可以直接切换到日历/地图/航班/任务/信息库，也可以在下面搜索框里找工具入口。</p>
+                    <section class="panel">
+                        <div class="panel-head"><span class="chan">TASK</span><span class="panel-title">今日待办</span><span class="tab-link" data-goto="task">查看全部 →</span></div>
+                        <div id="home-tasks"></div>
+                    </section>
+                    <section class="panel">
+                        <div class="panel-head"><span class="chan">FLT</span><span class="panel-title">今日航班</span><span class="tab-link" data-goto="flight">查看全部 →</span></div>
+                        <div id="home-flights"></div>
+                    </section>
+                    <section class="panel">
+                        <div class="panel-head"><span class="chan">NOTE</span><span class="panel-title">置顶信息</span><span class="tab-link" data-goto="note">查看全部 →</span></div>
+                        <div id="home-notes"></div>
+                    </section>
                 </section>
 
                 <section id="tab-cal" class="tab-section hidden">
