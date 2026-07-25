@@ -125,7 +125,7 @@ function renderTodos() {
     todos.forEach(t => {
         let r = document.createElement('div');
         r.className = 'todo-row' + (t.done ? ' done' : '');
-        r.innerHTML = `<input type="checkbox" ${t.done?'checked':''}><span>${esc(t.text)}</span><button class="icon-btn" data-a="edit">改</button><button class="icon-btn" data-a="del">×</button>`;
+        r.innerHTML = `<input type="checkbox" ${t.done?'checked':''}><span>${esc(t.text)}</span><button class="icon-btn" data-a="edit">✎</button><button class="icon-btn" data-a="del">×</button>`;
         r.querySelector('input').onchange = async e => {
             await s.from('todos').update({
                 done: e.target.checked,
