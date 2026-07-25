@@ -291,14 +291,38 @@ $('wx-card').onclick = async () => {
 };
 weather();
 
+/* google calendar — agenda restricted to one selected day (default today) via dates= param */
+function ymd(d) {
+    return `${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`
+}
+function loadCalendarDay(dateStr) {
+    let d = dateStr ? new Date(dateStr + 'T00:00:00') : new Date();
+    let next = new Date(d);
+    next.setDate(next.getDate() + 1);
+    $('cal-embed').src = `https://calendar.google.com/calendar/embed?src=yachengguoji001%40gmail.com&ctz=Asia%2FTokyo&mode=AGENDA&dates=${ymd(d)}/${ymd(next)}&showTitle=0&showPrint=0&showTabs=0&showCalendars=0&showTz=0`;
+    $('cal-date').value = d.toISOString().slice(0, 10)
+}
+loadCalendarDay();
+$('cal-date').onchange = () => loadCalendarDay($('cal-date').value);
+$('cal-today').onclick = () => loadCalendarDay();
+
 /* google maps search — no API key needed, uses the classic output=embed iframe trick */
 $('map-go').onclick = () => {
     let q = $('map-search').value.trim();
     if (!q) return;
-    $('map-embed').src = `https://www.google.com/maps?q=${encodeURIComponent(q)}&output=embed`
+    $('map-embed').src = `https://www.google.com/maps?q=${encodeURIComponent(q)}&output=embed`;
+    $('map-open-link').style.display = 'none'
 };
 $('map-search').onkeydown = e => {
     if (e.key === 'Enter') $('map-go').click()
+};
+$('map-route').onclick = () => {
+    let from = $('map-from').value.trim(),
+        to = $('map-to').value.trim();
+    if (!from || !to) return alert('请填写起点和终点');
+    $('map-embed').src = `https://www.google.com/maps?saddr=${encodeURIComponent(from)}&daddr=${encodeURIComponent(to)}&output=embed`;
+    $('map-open-link').href = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(from)}&destination=${encodeURIComponent(to)}`;
+    $('map-open-link').style.display = 'block'
 };
 
 /* flight watch: quick batch lookup (opens flightradar24, reuses same tab per flight) + saved per-user queries in Supabase */
