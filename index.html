@@ -27,95 +27,124 @@
             </div>
             <div class="header-actions"><span id="sync-state">未同步</span><button id="migrate-btn" class="secondary">上传本机旧数据</button><button id="logout-btn" class="secondary">退出登录</button></div>
         </header>
-        <section class="topbar">
-            <div class="info-card" id="wx-card">
-                <div class="info-dot"></div>
-                <div>
-                    <div class="info-main" id="wx-temp">--°</div>
-                    <div class="info-sub" id="wx-desc">点击设置城市</div>
+
+        <nav class="tabbar" id="tabbar">
+            <button class="tab-btn active" data-tab="home">首页</button>
+            <button class="tab-btn" data-tab="cal">日历</button>
+            <button class="tab-btn" data-tab="map">地图</button>
+            <button class="tab-btn" data-tab="flight">航班</button>
+            <button class="tab-btn" data-tab="task">任务</button>
+            <button class="tab-btn" data-tab="note">信息库</button>
+        </nav>
+
+        <section id="tab-home" class="tab-section">
+            <section class="topbar">
+                <div class="info-card" id="wx-card">
+                    <div class="info-dot"></div>
+                    <div>
+                        <div class="info-main" id="wx-temp">--°</div>
+                        <div class="info-sub" id="wx-desc">点击设置城市</div>
+                    </div>
                 </div>
-            </div>
-            <div class="info-card">
-                <div class="info-dot blue"></div>
-                <div>
-                    <div class="info-main" id="clock">--:--:--</div>
-                    <div class="info-sub" id="date">----</div>
+                <div class="info-card">
+                    <div class="info-dot blue"></div>
+                    <div>
+                        <div class="info-main" id="clock">--:--:--</div>
+                        <div class="info-sub" id="date">----</div>
+                    </div>
                 </div>
-            </div>
-            <div class="info-card">
-                <div class="info-dot amber"></div>
-                <div>
-                    <div class="info-main" id="task-ratio">0/0</div>
-                    <div class="info-sub">任务完成进度</div>
+                <div class="info-card">
+                    <div class="info-dot amber"></div>
+                    <div>
+                        <div class="info-main" id="task-ratio">0/0</div>
+                        <div class="info-sub">任务完成进度</div>
+                    </div>
                 </div>
-            </div>
+            </section>
+            <section class="panel">
+                <div class="panel-head"><span class="chan">TOOLS</span><span class="panel-title">快捷工具</span></div>
+                <input id="tool-search" class="search" placeholder="搜索工具，点击后在本标签页直接打开">
+                <div id="tool-panels"></div>
+            </section>
         </section>
-        <section class="panel">
-            <div class="panel-head"><span class="chan">CAL</span><span class="panel-title">雅澄日历</span></div>
-            <iframe id="cal-embed" style="width:100%;height:380px;border:1px solid var(--border);border-radius:9px;display:block;" src="https://calendar.google.com/calendar/embed?src=yachengguoji001%40gmail.com&ctz=Asia%2FTokyo&mode=WEEK&showTitle=0&showPrint=0&showTabs=0&showCalendars=0&showTz=0"></iframe>
-            <div class="info-sub" style="margin-top:6px;">已绑定 yachengguoji001@gmail.com。如果下面显示空白，去 Google 日历「设置与共享」把该日历权限调成「公开」或至少「查看忙碌/空闲时间」即可。</div>
+
+        <section id="tab-cal" class="tab-section hidden">
+            <section class="panel">
+                <div class="panel-head"><span class="chan">CAL</span><span class="panel-title">雅澄日历</span></div>
+                <iframe id="cal-embed" style="width:100%;height:560px;border:1px solid var(--border);border-radius:9px;display:block;" src="https://calendar.google.com/calendar/embed?src=yachengguoji001%40gmail.com&ctz=Asia%2FTokyo&mode=AGENDA&showTitle=0&showPrint=0&showTabs=0&showCalendars=0&showTz=0"></iframe>
+                <div class="info-sub" style="margin-top:6px;">已绑定 yachengguoji001@gmail.com，显示模式为「议程 Agenda」（按时间顺序列出接下来的事件，比周视图更适合手机查看不被切边）。如果下面显示空白，去 Google 日历「设置与共享」把该日历权限调成「公开」或至少「查看忙碌/空闲时间」即可。</div>
+            </section>
         </section>
-        <section class="panel">
-            <div class="panel-head"><span class="chan">MAP</span><span class="panel-title">谷歌地图搜索</span></div>
-            <div class="task-add"><input id="map-search" placeholder="搜索地点、地址或机场，如 羽田空港"><button id="map-go">搜索</button></div>
-            <iframe id="map-embed" style="width:100%;height:380px;border:1px solid var(--border);border-radius:9px;margin-top:10px;display:block;" src="https://www.google.com/maps?q=Tokyo%20Station&output=embed"></iframe>
+
+        <section id="tab-map" class="tab-section hidden">
+            <section class="panel">
+                <div class="panel-head"><span class="chan">MAP</span><span class="panel-title">谷歌地图搜索</span></div>
+                <div class="task-add"><input id="map-search" placeholder="搜索地点、地址或机场，如 羽田空港"><button id="map-go">搜索</button></div>
+                <iframe id="map-embed" style="width:100%;height:480px;border:1px solid var(--border);border-radius:9px;margin-top:10px;display:block;" src="https://www.google.com/maps?q=Tokyo%20Station&output=embed"></iframe>
+            </section>
         </section>
-        <section class="panel">
-            <div class="panel-head"><span class="chan">FLT</span><span class="panel-title">航班监控</span><span class="info-sub">接送前查航班是否提前到达</span></div>
-            <div class="task-add"><input id="flight-batch" placeholder="航班号，空格/逗号分隔，如 CX501 NH215"><button id="flight-open">批量查看</button></div>
-            <div class="task-add" style="margin-top:8px;flex-wrap:wrap;">
-                <input id="flight-no" placeholder="航班号" style="max-width:120px;">
-                <input id="flight-date" type="date">
-                <input id="flight-note" placeholder="备注，如 接机/客人姓名" style="flex:1;min-width:160px;">
-                <button id="flight-save">保存</button>
-            </div>
-            <div id="flight-list" style="margin-top:10px;"></div>
-        </section>
-        <section class="panel">
-            <div class="panel-head"><span class="chan">TOOLS</span><span class="panel-title">快捷工具</span></div><input id="tool-search" class="search" placeholder="搜索工具">
-            <div id="tool-panels"></div>
-        </section>
-        <section class="panel">
-            <div class="panel-head"><span class="chan">TASK</span><span class="panel-title">任务清单</span></div>
-            <div class="task-add"><input id="todo-input" placeholder="输入新任务，回车添加"><button id="todo-add">添加</button></div>
-            <div class="todo-grid">
-                <div>
-                    <h3>未完成</h3>
-                    <div id="todo-pending"></div>
+
+        <section id="tab-flight" class="tab-section hidden">
+            <section class="panel">
+                <div class="panel-head"><span class="chan">FLT</span><span class="panel-title">航班监控</span><span class="info-sub">接送前查航班是否提前到达</span></div>
+                <div class="task-add"><input id="flight-batch" placeholder="航班号，空格/逗号分隔，如 CX501 NH215"><button id="flight-open">批量查看</button></div>
+                <div class="task-add" style="margin-top:8px;flex-wrap:wrap;">
+                    <input id="flight-no" placeholder="航班号" style="max-width:120px;">
+                    <input id="flight-date" type="date">
+                    <input id="flight-note" placeholder="备注，如 接机/客人姓名" style="flex:1;min-width:160px;">
+                    <button id="flight-save">保存</button>
                 </div>
-                <div>
-                    <h3>已完成</h3>
-                    <div id="todo-done"></div>
+                <div id="flight-list" style="margin-top:10px;"></div>
+            </section>
+        </section>
+
+        <section id="tab-task" class="tab-section hidden">
+            <section class="panel">
+                <div class="panel-head"><span class="chan">TASK</span><span class="panel-title">任务清单</span></div>
+                <div class="task-add"><input id="todo-input" placeholder="输入新任务，回车添加"><button id="todo-add">添加</button></div>
+                <div class="todo-grid">
+                    <div>
+                        <h3>未完成</h3>
+                        <div id="todo-pending"></div>
+                    </div>
+                    <div>
+                        <h3>已完成</h3>
+                        <div id="todo-done"></div>
+                    </div>
                 </div>
-            </div>
+            </section>
         </section>
-        <section class="panel">
-            <div class="panel-head"><span class="chan">NOTE</span><span class="panel-title">信息库</span><span id="note-count"></span></div>
-            <div class="note-toolbar"><input id="note-search" placeholder="搜索司机、电话、规则或内容"><select id="note-filter">
-                    <option value="">全部分类</option>
-                    <option>司机资料</option>
-                    <option>外派规则</option>
-                    <option>平台规则</option>
-                    <option>No-show</option>
-                    <option>常用通知</option>
-                    <option>机场接机</option>
-                    <option>公司内部</option>
-                    <option>临时备忘</option>
-                </select><button id="note-add">新增 Note</button></div>
-            <div id="note-editor" class="editor hidden"><input id="note-title" placeholder="标题"><select id="note-category">
-                    <option>司机资料</option>
-                    <option>外派规则</option>
-                    <option>平台规则</option>
-                    <option>No-show</option>
-                    <option>常用通知</option>
-                    <option>机场接机</option>
-                    <option>公司内部</option>
-                    <option>临时备忘</option>
-                </select><textarea id="note-content" placeholder="内容"></textarea><label class="inline"><input id="note-pinned" type="checkbox">置顶</label>
-                <div class="editor-actions"><button id="note-cancel" class="secondary">取消</button><button id="note-save">保存</button></div>
-            </div>
-            <div id="note-list" class="note-list"></div>
+
+        <section id="tab-note" class="tab-section hidden">
+            <section class="panel">
+                <div class="panel-head"><span class="chan">NOTE</span><span class="panel-title">信息库</span><span id="note-count"></span></div>
+                <div class="note-toolbar"><input id="note-search" placeholder="搜索司机、电话、规则或内容"><select id="note-filter">
+                        <option value="">全部分类</option>
+                        <option>司机资料</option>
+                        <option>外派规则</option>
+                        <option>平台规则</option>
+                        <option>No-show</option>
+                        <option>常用通知</option>
+                        <option>机场接机</option>
+                        <option>公司内部</option>
+                        <option>临时备忘</option>
+                    </select><button id="note-add">新增 Note</button></div>
+                <div id="note-editor" class="editor hidden"><input id="note-title" placeholder="标题"><select id="note-category">
+                        <option>司机资料</option>
+                        <option>外派规则</option>
+                        <option>平台规则</option>
+                        <option>No-show</option>
+                        <option>常用通知</option>
+                        <option>机场接机</option>
+                        <option>公司内部</option>
+                        <option>临时备忘</option>
+                    </select><textarea id="note-content" placeholder="内容"></textarea><label class="inline"><input id="note-pinned" type="checkbox">置顶</label>
+                    <div class="editor-actions"><button id="note-cancel" class="secondary">取消</button><button id="note-save">保存</button></div>
+                </div>
+                <div id="note-list" class="note-list"></div>
+            </section>
         </section>
+
         <footer>Note 与任务存储于 Supabase；GitHub 仅保存网页代码。</footer>
     </main>
     <script src="config.js"></script>

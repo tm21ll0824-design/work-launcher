@@ -50,8 +50,6 @@ function tools() {
             let e = document.createElement('a');
             e.className = 'tile';
             e.href = x[1];
-            e.target = '_blank';
-            e.rel = 'noopener';
             e.innerHTML = `<span class="badge" style="background:${x[3]}">${x[2]}</span>${x[0]}`;
             d.querySelector('.grid').appendChild(e)
         });
@@ -60,6 +58,15 @@ function tools() {
 }
 $('tool-search').oninput = tools;
 tools();
+
+/* tab navigation: home / cal / map / flight / task / note — switches which section is visible, no page reload */
+document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.onclick = () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b === btn));
+        document.querySelectorAll('.tab-section').forEach(sec => sec.classList.toggle('hidden', sec.id !== `tab-${btn.dataset.tab}`));
+    }
+});
+
 $('login-form').onsubmit = async e => {
     e.preventDefault();
     let {
