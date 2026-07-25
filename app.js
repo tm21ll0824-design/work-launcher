@@ -60,6 +60,10 @@ function tools() {
 }
 $('tool-search').oninput = tools;
 tools();
+$('tools-toggle').onclick = () => {
+    let open = $('tools-collapse').classList.toggle('hidden') === false;
+    $('tools-toggle').textContent = (open ? '快捷工具 ▴' : '快捷工具 ▾')
+};
 
 /* tab navigation: home / cal / map / flight / task / note — switches which section is visible, no page reload */
 function goTab(tab) {
