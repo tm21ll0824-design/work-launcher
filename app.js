@@ -365,18 +365,22 @@ async function autoLocateWeather() {
 }
 async function ipLocateWeather() {
     try {
-        let r = await fetch('https://ipwho.is/'),
+        let r = await fetch('https://ipapi.co/json/'),
             j = await r.json();
-        if (j.success !== false && j.latitude) {
+        if (j.latitude && j.longitude) {
             wx = {
-                name: j.city || j.country,
+                name: j.city || j.country_name || '未知位置',
                 lat: j.latitude,
                 lon: j.longitude
             };
             localStorage.setItem('launcher_wx_location', JSON.stringify(wx));
             weather()
+        } else {
+            $('wx-desc').textContent = '定位失败，点击设置城市'
         }
-    } catch {}
+    } catch {
+        $('wx-desc').textContent = '定位失败，点击设置城市'
+    }
 }
 
 /* google calendar — agenda restricted to one selected day (default today) via dates= param */
