@@ -129,7 +129,7 @@ function renderTodos() {
     todos.forEach(t => {
         let r = document.createElement('div');
         r.className = 'todo-row' + (t.done ? ' done' : '');
-        r.innerHTML = `<input type="checkbox" ${t.done?'checked':''}><span>${esc(t.text)}</span><button class="icon-btn" data-a="edit">✎</button><button class="icon-btn" data-a="del">×</button>`;
+        r.innerHTML = `<input type="checkbox" ${t.done?'checked':''}><span>${esc(t.text)}</span><button class="icon-btn icon-btn-sq" data-a="edit">✎</button><button class="icon-btn icon-btn-sq" data-a="del">×</button>`;
         r.querySelector('input').onchange = async e => {
             await s.from('todos').update({
                 done: e.target.checked,
@@ -405,11 +405,13 @@ function loadCalendarDay(dateStr) {
     let d = dateStr ? new Date(dateStr + 'T00:00:00') : new Date();
     let next = new Date(d);
     next.setDate(next.getDate() + 1);
-    $('cal-embed').src = `https://calendar.google.com/calendar/embed?${CAL_SRC_PARAMS}&mode=AGENDA&dates=${ymd(d)}/${ymd(next)}&showTitle=0&showTabs=0&showCalendars=0&showTz=0`;
+    let mode = $('cal-mode').value || 'AGENDA';
+    $('cal-embed').src = `https://calendar.google.com/calendar/embed?${CAL_SRC_PARAMS}&mode=${mode}&dates=${ymd(d)}/${ymd(next)}&showTitle=0&showTabs=0&showCalendars=0&showTz=0`;
     $('cal-date').value = d.toISOString().slice(0, 10)
 }
 loadCalendarDay();
 $('cal-date').onchange = () => loadCalendarDay($('cal-date').value);
+$('cal-mode').onchange = () => loadCalendarDay($('cal-date').value);
 $('cal-today').onclick = () => loadCalendarDay();
 
 /* google maps search — no API key needed, uses the classic output=embed iframe trick */
@@ -453,7 +455,7 @@ async function loadFlights() {
     data.forEach(f => {
         let r = document.createElement('div');
         r.className = 'todo-row';
-        r.innerHTML = `<span><b>${esc(f.flight_no)}</b> · ${f.flight_date}${f.note?' · '+esc(f.note):''}</span><button class="icon-btn" data-a="view">查看</button><button class="icon-btn" data-a="del">×</button>`;
+        r.innerHTML = `<span><b>${esc(f.flight_no)}</b> · ${f.flight_date}${f.note?' · '+esc(f.note):''}</span><button class="icon-btn" data-a="view">查看</button><button class="icon-btn icon-btn-sq" data-a="del">×</button>`;
         r.querySelector('[data-a=view]').onclick = () => window.open(`https://www.flightradar24.com/data/flights/${f.flight_no.toLowerCase()}`, `flt_${f.flight_no}`, 'noopener');
         r.querySelector('[data-a=del]').onclick = async () => {
             if (confirm(`删除「${f.flight_no} · ${f.flight_date}」？`)) {

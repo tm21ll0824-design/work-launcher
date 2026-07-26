@@ -88,7 +88,7 @@
                 <section id="tab-cal" class="tab-section hidden">
                     <section class="panel">
                         <div class="panel-head"><span class="chan">CAL</span><span class="panel-title">雅澄日历</span></div>
-                        <div class="task-add"><input id="cal-date" type="date"><button id="cal-today">回到今天</button></div>
+                        <div class="task-add"><input id="cal-date" type="date"><select id="cal-mode"><option value="AGENDA">列表视图</option><option value="DAY">时间表视图</option></select><button id="cal-today">回到今天</button></div>
                         <iframe id="cal-embed" style="width:100%;height:min(900px,calc(100vh - 200px));border:1px solid var(--border);border-radius:9px;display:block;margin-top:10px;" src=""></iframe>
                         <a class="info-sub" href="https://calendar.google.com/calendar/u/0/r/day" target="_blank" rel="noopener" style="display:inline-block;margin-top:4px;">如果这里还是看不全，点这里在 Google 日历官网打开完整版 ↗</a>
                         <div class="info-sub" style="margin-top:6px;">已合并显示你所有车辆/司机的日历（每个颜色对应一辆车），默认只看选中这一天。如果新增了车辆日历，需要去 Google 日历「嵌入助手」重新生成一次链接再告诉我更新。</div>
