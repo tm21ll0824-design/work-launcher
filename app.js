@@ -33,7 +33,9 @@ const groups = [
         ['ETC 利用照会', 'https://www.etc-meisai.jp/', 'ETC', '#b15c48']
     ]],
     ['AI 工具', [
-        ['ChatGPT', 'https://chatgpt.com', 'GPT', '#4e76a8']
+        ['ChatGPT', 'https://chatgpt.com', 'GPT', '#4e76a8'],
+        ['Claude', 'https://claude.ai', 'Cl', '#b5791e'],
+        ['DeepL 翻译', 'https://www.deepl.com/translator', '译', '#3e8f7c']
     ]]
 ];
 
