@@ -26,7 +26,9 @@ const groups = [
         ['Transfeero', 'https://control.transfeero.com/upcoming_rides', 'TF', '#b5791e'],
         ['KKday', 'https://scm.kkday.com/v2/zh-tw/auth/login', 'KK', '#b5791e'],
         ['Blacklane', 'https://partner.blacklane.com/offers/', 'BL', '#b5791e'],
-        ['Get-E', 'https://app.portal.get-e.com/portal/login', 'GE', '#b5791e']
+        ['Get-E', 'https://app.portal.get-e.com/portal/login', 'GE', '#b5791e'],
+        ['公司招聘系统', 'https://hire-management-system-production.up.railway.app/login.html', '招聘', '#b5791e'],
+        ['公司官网', 'https://kasumi-hire.co.jp/', '官网', '#b5791e']
     ]],
     ['财务与凭证', [
         ['freee 请求書', 'https://accounts.secure.freee.co.jp/login/invoice', '帳', '#b15c48'],
