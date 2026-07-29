@@ -32,7 +32,8 @@ const groups = [
     ]],
     ['财务与凭证', [
         ['freee 请求書', 'https://accounts.secure.freee.co.jp/login/invoice', '帳', '#b15c48'],
-        ['ETC 利用照会', 'https://www.etc-meisai.jp/', 'ETC', '#b15c48']
+        ['ETC 利用照会', 'https://www.etc-meisai.jp/', 'ETC', '#b15c48'],
+        ['Square 收款', 'https://app.squareup.com/', 'SQ', '#b15c48']
     ]],
     ['AI 工具', [
         ['ChatGPT', 'https://chatgpt.com', 'GPT', '#4e76a8'],
